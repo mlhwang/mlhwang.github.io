@@ -15,14 +15,6 @@ a {
   a:hover {
     text-decoration: underline; }
 
- /* Below is where I am trying to make my class photos all the same size */
-
-@media (min-width:768px) {
-.cover-row{ 
-  min-height: 150px;
-  width: auto; }
-}
-
 .btn {
   display: inline-block;
   margin-bottom: 1rem;
