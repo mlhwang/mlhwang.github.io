@@ -16,9 +16,11 @@ a {
     text-decoration: underline; }
 
  /* Below is where I am trying to make my class photos all the same size */
-.cover-row{
-  
-  min-height: 4em;
+
+@media (min-width:768px) {
+.cover-row{ 
+  min-height: 150px;
+  width: auto; }
 }
 
 .btn {
