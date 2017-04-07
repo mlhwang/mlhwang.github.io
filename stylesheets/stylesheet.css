@@ -17,7 +17,7 @@ a {
 
  /* Below is where I am trying to make my class photos all the same size */
 .cover-row{
-  position: relative;
+  position: absolute;
   min-height: 200px;
 }
 
