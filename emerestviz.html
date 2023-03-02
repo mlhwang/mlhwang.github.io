@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Network</title>
+        <style>
+      body {
+        color: #d3d3d3;
+        font: 12pt arial;
+        background-color: #222222;
+      }
+
+      #mynetwork {
+        width: 800px;
+        height: 800px;
+        border: 1px solid #444444;
+        background-color: #222222;
+      }
+    </style>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
+  
+    <style type="text/css">
+      #mynetwork {
+        width: 1000px;
+        height: 1000px;
+        border: 1px solid lightgray;
+      }
+    </style>
+  </head>
+  <body>
+    <input
+      type="button"
+      onclick="label()"
+      value="label"
+    /><br />
+
+    <input
+      type="button"
+      onclick="group()"
+      value="group"
+    /><br />
+    <div id="mynetwork"></div>
+
+  </body>
+  
+  
+    <script type="text/javascript">
+  let heterogroupList = [[2887, 3526, 2539, 3690, 3719, 3795, 2489, 3631, 3840, 5567, 2915, 6427, 5575, 3002, 3599, 1597, 2551, 5103, 5686, 2531, 5098, 3557, 2641, 2561, 5566, 5623, 5712, 5205, 5609, 5173, 3423, 2989, 1596, 2632, 3018, 3441, 2951, 5596, 5628, 1602, 2623, 2458, 5691, 2937, 3058, 5057, 3886, 3873, 3093, 3688, 3728, 3005, 2958, 3813, 2596, 3697, 2904, 3817, 2457, 2755, 3864, 3465, 3642, 2487, 2626, 3443, 3144], [2944, 3670, 5744, 5729, 2585, 2504, 5225, 2968, 5660, 5685, 2605, 5659, 5292, 6416, 3461, 5139, 5765, 3601, 5738, 5600, 3545, 5104, 3768, 5597, 3103, 5192, 3794, 3112, 3425, 2938, 2988, 5131, 5671, 3872, 2640, 3823, 1598, 3570, 3626, 3445, 3618, 3045, 3458, 2474, 3821, 3560, 2574, 5077, 2537, 3879, 3482, 2446, 3877, 5096, 2505, 5552, 3713, 2999, 3089, 3414, 3784, 3783, 2901, 2576, 2437, 3834, 2997, 5257], [2544, 5067, 5557, 2570, 3878, 1604, 3418, 3820, 5638, 2492, 2543, 2633, 2986, 3651, 3588, 3764, 3514, 5252, 3559, 5094, 3569, 5161, 3440, 2509, 2494, 3876, 2478, 2468, 3546, 2447, 3037, 3647, 3674, 2973, 3099, 2935, 3140, 5347, 3792, 3573, 3054, 5270, 3645, 3851, 5240, 5226, 5165, 5779, 5581, 5603, 3096, 3420, 5106, 2955, 5063, 5681, 2490, 2555, 2617, 2654, 3494, 3816, 3694, 5417, 3810, 3828, 1606, 6470]];
+
+let homogroupList =[[2887, 1597, 2551, 5686, 2531, 3557, 3873, 3093, 3688, 3005, 2958, 2596, 3697, 2904, 3817, 2457, 2755, 3465, 2487, 2626, 3144, 2944, 2968, 2605, 3545, 3768, 3794, 3112, 2988, 3872, 3445, 3458, 2474, 3821, 3560, 2574, 2537, 3482, 2446, 2999, 3089, 2576, 5094, 3569, 5161, 3440, 2509, 2494, 3876, 2478, 2468, 2447, 3037, 3647, 3674, 2973, 3099, 2935, 3140, 5347, 3792, 3573, 3054], [3526, 3690, 3719, 3795, 3631, 3840, 2915, 6427, 5575, 3599, 5098, 2641, 3423, 2989, 2632, 3018, 3441, 5596, 5628, 1602, 2458, 5691, 2937, 3058, 3886, 5744, 2504, 5660, 5659, 6416, 3461, 5139, 5600, 5597, 3103, 3425, 2640, 3570, 3626, 3618, 3877, 5096, 5552, 3713, 3414, 3783, 2901, 3834, 5257, 3514, 3559, 3546, 3645, 3851, 5581, 5603, 3096, 3420, 5106, 2955, 5063, 5681, 2490, 2555, 2617, 2654, 3494, 3816, 3694, 5417, 3810, 3828, 1606], [2539, 2489, 5567, 1598, 3002, 5103, 2561, 5566, 5623, 5712, 5205, 5609, 5173, 1596, 2951, 2623, 5057, 3728, 3813, 3864, 3642, 3443, 3670, 5729, 2585, 5225, 5685, 5292, 5765, 3601, 5738, 5104, 5192, 2938, 5131, 5671, 3823, 1598, 3045, 5077, 3879, 2505, 3784, 2437, 2997, 2544, 5067, 5557, 2570, 3878, 1604, 3418, 3820, 5638, 2492, 2543, 2633, 2986, 3651, 3588, 3764, 5252, 5270, 5240, 5226, 5165, 5779, 6470]]
+
+let homogroupLabels = new Object();
+
+homogroupList.forEach(function (gList, i) {
+    for (let patientId in gList) {
+    	homogroupLabels[patientId] = i;
+      }
+});
+
+
+function createNode(idVal, labelVal, groupVal){
+	return { id: idVal, label: labelVal}; //, group: groupVal};
+}
+function createEdge(s,t) {
+	return {from: s, to: t}
+}
+
+function genNodes(){
+	//create a node for each group
+	let groupLabelNodes = heterogroupList.map((oneGroupList, index) => createNode("group_"+index, "group "+index))
+  //create nodes for each item in the group
+  let nodeLists = heterogroupList.map((oneGroupList, index) => 
+  	oneGroupList.map(node => createNode(node, ""+node, index))
+  )
+  return nodeLists.flat().concat(groupLabelNodes)
+}
+
+function genEdges(){
+	let edgeLists = heterogroupList.map((oneGroupList, index) =>
+  	oneGroupList.map(node => createEdge("group_"+index, node))
+  )
+	return edgeLists.flat()
+}
+
+// create an array with nodes
+let nodes = new vis.DataSet(genNodes())
+
+// create an array with edges
+let edges = new vis.DataSet([]);
+
+let newEdges = genEdges();
+
+// create a network
+var container = document.getElementById("mynetwork");
+var data = {
+  nodes: nodes,
+  edges: edges,
+};
+var options = {
+  nodes: {
+    shape: "dot",
+    size: 30,
+    font: {
+      size: 32,
+      color: "#ffffff",
+    },
+    borderWidth: 2,
+  },
+  edges: {
+    width: 2,
+  },
+  groups: {
+    0: {color:{background:'red'}, borderWidth:3}
+  },
+  layout: {
+  	improvedLayout: false
+  }
+}
+var network = new vis.Network(container, data, options);
+
+function label(){
+	for (let glist in homogroupList) {
+  	for (let n in homogroupList[glist]) {
+  		setTimeout(() => {
+        let gcolor =''
+        if (glist==0) {gcolor = '#6F0707'}
+        if (glist==1) {gcolor = '#242423'}
+        if (glist==2) {gcolor = '#E8EDDF'}
+    		nodes.update({ id:homogroupList[glist][n], color: { background: gcolor }}); 
+  		}, 100*n);
+  	}
+  }
+	
+}
+
+function group(){
+	for(let i = 0; i < newEdges.length; i++) {
+  setTimeout(() => {
+    edges.add(newEdges[i]); 
+  }, 100*i);
+}
+  }
+
+    </script>
+    
+</html>
